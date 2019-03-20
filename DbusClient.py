@@ -22,7 +22,7 @@ extra_confused = [
 blue = [[LuxaforFlag.LED_BACK_1, 0, 0, 255]]
 black = [[LuxaforFlag.LED_ALL, 0, 0, 0]]
 
-state = green
+state = black
 
 flag = LuxaforFlag()
 
@@ -56,6 +56,8 @@ def notifications(bus, message):
                 setColor(confused)
             elif notification["body"] == 'EXTRA_CONFUSED':
                 setColor(extra_confused)
+            elif notification["body"] == 'OFF':
+                setColor(black)
         elif notification['app_name'] == 'tomate-notify-plugin':
             if notification["summary"] == "Pomodoro":
                 setColor(red)
