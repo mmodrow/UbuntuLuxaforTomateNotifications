@@ -20,6 +20,7 @@ extra_confused = [
     [LuxaforFlag.LED_BACK_3, 255, 0, 255]
 ]
 blue = [[LuxaforFlag.LED_BACK_1, 0, 0, 255]]
+black = [[LuxaforFlag.LED_ALL, 0, 0, 0]]
 
 state = green
 
@@ -39,35 +40,33 @@ def notifications(bus, message):
     args = message.get_args_list()
     if len(args) == 8:
         notification = dict([(keys[i], args[i]) for i in range(8)])
-        if notification["body"] == 'BUSY':
-            setColor(red)
-        elif notification["body"] == 'QUIET':
-            setColor(yellow)
-        elif notification["body"] == 'OPEN':
-            setColor(green)
-        elif notification["body"] == 'COPS':
-            flag.do_pattern(LuxaforFlag.PATTERN_POLICE, 3)
-            sleep(3)
-            setColor(state)
-        elif notification["body"] == 'CONFUSED':
-            setColor(confused)
-        elif notification["body"] == 'EXTRA_CONFUSED':
-            setColor(extra_confused)
-        elif notification["app_name"] == "Thunderbird":
-            if "Successful" in notification["summary"] :
-                flag.do_strobe(green[0][0], green[0][1], green[0][2], green[0][3], 5, 5)
-            elif "Build Failed" in notification["summary"]:
-                flag.do_strobe(red[0][0], red[0][1], red[0][2], red[0][3], 5, 5)
-            elif "Build Unstable" in notification["summary"]:
-                flag.do_strobe(blue[0][0], yellow[0][1], yellow[0][2], yellow[0][3], 5, 5)
-            else:
-                flag.do_strobe(blue[0][0], blue[0][1], blue[0][2], blue[0][3], 5, 5)
-            sleep(5)
-            setColor(state)
-        elif notification["body"] == 'LUNCH':
-            flag.do_pattern(LuxaforFlag.PATTERN_RAINBOWWAVE, 200)
-        elif notification["app_name"] != 'Deezer' and notification["app_name"] != 'gnome-settings-daemon':
-            flag.do_strobe(state[0][0], state[0][1], state[0][2], state[0][3], 3, 5)
+        # print("app_name: " + notification["app_name"] + "\nbody: " + notification["body"] + "\nsummary: " + notification["summary"])
+        if notification["app_name"] == "notify-send":
+            if notification["body"] == 'BUSY':
+                setColor(red)
+            elif notification["body"] == 'QUIET':
+                setColor(yellow)
+            elif notification["body"] == 'OPEN':
+                setColor(green)
+            elif notification["body"] == 'COPS':
+                flag.do_pattern(LuxaforFlag.PATTERN_POLICE, 3)
+                sleep(3)
+                setColor(state)
+            elif notification["body"] == 'CONFUSED':
+                setColor(confused)
+            elif notification["body"] == 'EXTRA_CONFUSED':
+                setColor(extra_confused)
+        elif notification['app_name'] == 'tomate-notify-plugin':
+            if notification["summary"] == "Pomodoro":
+                setColor(red)
+            elif notification["summary"] == "The time is up!":
+                setColor(black)
+            elif notification["summary"] == "Session stopped manually.":
+                setColor(black)
+            elif notification["summary"] == "Long Break":
+                setColor(green)
+            elif notification["summary"] == "Short Break":
+                setColor(green)
 
 
 DBusGMainLoop(set_as_default=True)
