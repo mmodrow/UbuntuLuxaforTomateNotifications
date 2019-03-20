@@ -42,11 +42,11 @@ def notifications(bus, message):
         notification = dict([(keys[i], args[i]) for i in range(8)])
         # print("app_name: " + notification["app_name"] + "\nbody: " + notification["body"] + "\nsummary: " + notification["summary"])
         if notification["app_name"] == "notify-send":
-            if notification["body"] == 'BUSY':
+            if notification["body"] == 'RED' or notification["body"] == 'red' or notification["body"] == 'BUSY':
                 setColor(red)
-            elif notification["body"] == 'QUIET':
+            elif notification["body"] == 'YELLOW' or notification["body"] == 'yellow' or notification["body"] == 'QUIET':
                 setColor(yellow)
-            elif notification["body"] == 'OPEN':
+            elif notification["body"] == 'GREEN' or notification["body"] == 'green' or notification["body"] == 'OPEN':
                 setColor(green)
             elif notification["body"] == 'COPS':
                 flag.do_pattern(LuxaforFlag.PATTERN_POLICE, 3)
@@ -56,7 +56,7 @@ def notifications(bus, message):
                 setColor(confused)
             elif notification["body"] == 'EXTRA_CONFUSED':
                 setColor(extra_confused)
-            elif notification["body"] == 'OFF':
+            elif notification["body"] == 'BLACK' or notification["body"] == 'black' or notification["body"] == 'OFF':
                 setColor(black)
         elif notification['app_name'] == 'tomate-notify-plugin':
             if notification["summary"] == "Pomodoro":
