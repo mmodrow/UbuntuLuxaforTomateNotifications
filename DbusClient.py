@@ -7,6 +7,8 @@ import dbus
 from pyluxafor import LuxaforFlag
 from time import sleep
 
+import re
+
 green = [[LuxaforFlag.LED_ALL, 0, 255, 0]]
 red = [[LuxaforFlag.LED_ALL, 255, 0, 0]]
 yellow = [[LuxaforFlag.LED_ALL, 255, 192, 0]]
@@ -26,6 +28,7 @@ state = black
 
 flag = LuxaforFlag()
 
+hexColor = re.compile("^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$")
 
 def setColor(flagstatus):
     global state, flag
@@ -58,6 +61,13 @@ def notifications(bus, message):
                 setColor(extra_confused)
             elif notification["body"] == 'BLACK' or notification["body"] == 'black' or notification["body"] == 'OFF':
                 setColor(black)
+            elif hexColor.match(notification["body"]):
+                match = re.match(hexColor, notification["body"])
+                matchGroups = match.groups()
+                hexRed = int(matchGroups[0], 16)
+                hexGreen = int(matchGroups[1], 16)
+                hexYellow = int(matchGroups[2], 16)
+                setColor([[LuxaforFlag.LED_ALL, hexRed, hexGreen, hexYellow]])
         elif notification['app_name'] == 'tomate-notify-plugin':
             if notification["summary"] == "Pomodoro":
                 setColor(red)
