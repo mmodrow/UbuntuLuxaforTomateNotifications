@@ -73,7 +73,7 @@ def notifications(bus, message):
                 setColor(red)
             elif notification["summary"] == "The time is up!":
                 setColor(black)
-            elif notification["summary"] == "Session stopped manually.":
+            elif notification["summary"] == "Session stopped manually":
                 setColor(black)
             elif notification["summary"] == "Long Break":
                 setColor(green)
