@@ -1,0 +1,3 @@
+[submodule "webcolors"]
+	path = webcolors
+	url = git@github.com:ubernostrum/webcolors.git

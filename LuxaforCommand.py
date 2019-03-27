@@ -1,6 +1,9 @@
 #!/usr/bin/env python2
 import socket
 import sys
+import imp
+
+webcolors = imp.load_source('webcolors', './webcolors/webcolors.py')
 
 if len(sys.argv) <= 1:
     sys.exit()
@@ -16,6 +19,12 @@ try:
     
     # Send data
     message = sys.argv[1]
+    try:
+        message = webcolors.name_to_hex(message)
+        print(sys.argv[1] + " is name for hex color. Using hex code " + message + " instead")
+    except:
+        print(message + " is a literal message.")
+
     print('sending "%s"' % message)
     sock.sendall(message)
 
