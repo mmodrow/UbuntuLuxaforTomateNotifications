@@ -1,9 +1,27 @@
 #!/usr/bin/env python2
 import socket
 import sys
-import imp
+import os
+import inspect
 
-webcolors = imp.load_source('webcolors', './webcolors/webcolors.py')
+def get_script_dir(follow_symlinks=True):
+    if getattr(sys, 'frozen', False): # py2exe, PyInstaller, cx_Freeze
+        path = os.path.abspath(sys.executable)
+    else:
+        path = inspect.getabsfile(get_script_dir)
+    if follow_symlinks:
+        path = os.path.realpath(path)
+    return os.path.dirname(path)
+
+#append the relative location you want to import from
+os.chdir(get_script_dir())
+print(get_script_dir())
+#append the relative location you want to import from
+sys.path.insert(0, get_script_dir()+'/webcolors/')
+
+#import your module stored in '../webcolors'
+import webcolors
+
 
 if len(sys.argv) <= 1:
     sys.exit()
