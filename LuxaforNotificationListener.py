@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 from dbus.mainloop.glib import DBusGMainLoop
 
 from gi.repository import GLib

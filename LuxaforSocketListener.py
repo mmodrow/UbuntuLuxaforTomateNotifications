@@ -44,6 +44,14 @@ def setColorByLabel(label):
         flag.do_pattern(LuxaforFlag.PATTERN_POLICE, 3)
         sleep(3)
         flagstatus = state
+    elif label == 'rainbow':
+        flag.do_pattern(LuxaforFlag.PATTERN_RAINBOWWAVE, 3)
+        sleep(3)
+        flagstatus = state
+    elif label == 'luxafor':
+        flag.do_pattern(LuxaforFlag.PATTERN_LUXAFOR, 3)
+        sleep(3)
+        flagstatus = state
     elif hexColor.match(label):
         match = re.match(hexColor, label)
         matchGroups = match.groups()

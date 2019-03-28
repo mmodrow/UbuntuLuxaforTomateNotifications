@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import socket
 import sys
 import os
@@ -44,7 +44,7 @@ try:
         print(message + " is a literal message.")
 
     print('sending "%s"' % message)
-    sock.sendall(message)
+    sock.sendall(bytearray(message, 'utf-8'))
 
 finally:
     print('closing socket')
