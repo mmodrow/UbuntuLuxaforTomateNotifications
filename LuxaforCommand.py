@@ -15,7 +15,7 @@ def get_script_dir(follow_symlinks=True):
 
 #append the relative location you want to import from
 os.chdir(get_script_dir())
-print(get_script_dir())
+#print(get_script_dir())
 #append the relative location you want to import from
 sys.path.insert(0, get_script_dir()+'/webcolors/')
 
@@ -24,6 +24,7 @@ import webcolors
 
 
 if len(sys.argv) <= 1:
+    print("No message was provided. Exiting now.")
     sys.exit()
 
 # Create a TCP/IP socket
