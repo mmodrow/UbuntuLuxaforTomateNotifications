@@ -65,21 +65,23 @@ def setColorByLabel(label):
         matchGroups = match.groups()
         hours = int(matchGroups[0])
         hoursOfDay = max(9, min(18, hours)) - 9
+        hoursBrightness = int((9.0-hoursOfDay)/9*255)
         minutes = int(matchGroups[1])
         minutesOfHour = max(0, min(60, minutes))
+        minutesBrightness = int((59.0-minutesOfHour)/60*255)
         seconds = int(matchGroups[2])
 
         hoursLed = [
                         LuxaforFlag.LED_BACK_2,
-                        int(hoursOfDay/9*255),
-                        int((9.0-hoursOfDay)/24*255),
-                        0
+                        hoursBrightness,
+                        hoursBrightness,
+                        hoursBrightness
                     ]
         minutesLed = [
                         LuxaforFlag.LED_BACK_1,
-                        int(minutesOfHour/60*255),
-                        int((60.0-minutesOfHour)/60*255),
-                        0
+                        minutesBrightness,
+                        minutesBrightness,
+                        minutesBrightness
                     ]
         flagstatus = [hoursLed, minutesLed]
     setColor(flagstatus)
