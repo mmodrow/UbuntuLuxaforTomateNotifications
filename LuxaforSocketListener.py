@@ -24,6 +24,7 @@ state = black
 flag = LuxaforFlag()
 
 hexColor = re.compile("^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$")
+time = re.compile("^(\d{2}):(\d{2}):(\d{2})$")
 
 def setColorByLabel(label):
     label = label.lower()
@@ -59,6 +60,28 @@ def setColorByLabel(label):
         hexGreen = int(matchGroups[1], 16)
         hexYellow = int(matchGroups[2], 16)
         flagstatus = [[LuxaforFlag.LED_ALL, hexRed, hexGreen, hexYellow]]
+    elif time.match(label):
+        match = re.match(time, label)
+        matchGroups = match.groups()
+        hours = int(matchGroups[0])
+        hoursOfDay = max(9, min(18, hours)) - 9
+        minutes = int(matchGroups[1])
+        minutesOfHour = max(0, min(60, minutes))
+        seconds = int(matchGroups[2])
+
+        hoursLed = [
+                        LuxaforFlag.LED_BACK_2,
+                        int(hoursOfDay/9*255),
+                        int((9.0-hoursOfDay)/24*255),
+                        0
+                    ]
+        minutesLed = [
+                        LuxaforFlag.LED_BACK_1,
+                        int(minutesOfHour/60*255),
+                        int((60.0-minutesOfHour)/60*255),
+                        0
+                    ]
+        flagstatus = [hoursLed, minutesLed]
     setColor(flagstatus)
 
 def setColor(flagstatus):
