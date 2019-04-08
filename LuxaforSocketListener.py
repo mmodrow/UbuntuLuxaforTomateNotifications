@@ -90,20 +90,21 @@ def getColorsFromTimeString(timeString):
     match = re.match(time, timeString)
     matchGroups = match.groups()
 
-    hours = int(matchGroups[0])
-    hoursOfDay = max(9, min(18, hours)) - 9
-    hoursPartial = hoursOfDay / 9.0
-    hoursColor = get7StopHeatMapColor(hoursPartial)
+
+    seconds = int(matchGroups[2])
+    secondsOfMinute = max(0, min(59, seconds))
+    secondsPartial = secondsOfMinute / 59.0
+    secondsColor = get7StopHeatMapColor(secondsPartial)
 
     minutes = int(matchGroups[1])
     minutesOfHour = max(0, min(59, minutes))
     minutesPartial = minutesOfHour / 59.0
     minutesColor = get7StopHeatMapColor(minutesPartial)
 
-    seconds = int(matchGroups[2])
-    secondsOfMinute = max(0, min(59, seconds))
-    secondsPartial = secondsOfMinute / 59.0
-    secondsColor = get7StopHeatMapColor(secondsPartial)
+    hours = int(matchGroups[0])
+    hoursOfDay = max(9, min(18, hours)) - 9
+    hoursPartial = (hoursOfDay + minutesPartial) / 9.0
+    hoursColor = get7StopHeatMapColor(hoursPartial)
 
     return [hoursColor, minutesColor, secondsColor]
 
