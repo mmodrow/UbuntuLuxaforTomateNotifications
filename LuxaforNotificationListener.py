@@ -18,7 +18,7 @@ def send(message):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(server_address)
         print('sending "%s"' % message)
-        sock.sendall(message)
+        sock.sendall(bytearray(message, 'utf-8'))
     finally:
         print('closing socket')
         sock.shutdown(socket.SHUT_RDWR)
